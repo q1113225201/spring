@@ -1,0 +1,1 @@
+create table user (id int identity,username varchar(32),password varchar(32),nickname varchar(32),type int );
