@@ -1,0 +1,1 @@
+create table user (id int identity ,name varchar(64) )

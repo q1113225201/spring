@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import javax.sql.DataSource;
@@ -32,7 +33,8 @@ public class OneDatasourceApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         showConnect();
         showData();
-        userDao.insertData();
+//        userDao.insertData();
+        userDao.batchUsers();
     }
 
     @Bean
@@ -40,6 +42,12 @@ public class OneDatasourceApplication implements CommandLineRunner {
     public SimpleJdbcInsert simpleJdbcInsert(JdbcTemplate jdbcTemplate) {
         return new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("user").usingGeneratedKeyColumns("id");
+    }
+
+    @Bean
+    @Autowired
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        return new NamedParameterJdbcTemplate(jdbcTemplate);
     }
 
     private void showData() {
